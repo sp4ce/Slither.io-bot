@@ -966,7 +966,7 @@ var bot = window.bot = (function() {
                 },
                 execute: function() {
                     bot.tasks.forEach(function(v,i,l){
-                        console.log(v.id, v.priority, v.description);
+                        window.log(v.id, v.priority, v.description);
                     });
                 }
             },
@@ -990,10 +990,8 @@ var bot = window.bot = (function() {
 
             var task = bot.tasks[0];
 
-            if (window.visualDebugging) {
-                if (bot.lastTask && (bot.lastTask.id !== task.id || bot.lastTask.priority !== task.priority)) {
-                    console.log(task.priority, task.id);
-                }
+            if (bot.lastTask && (bot.lastTask.id !== task.id || bot.lastTask.priority !== task.priority)) {
+                window.log(task.priority, task.id);
             }
             bot.lastTask = {
                 id: task.id,
