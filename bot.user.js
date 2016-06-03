@@ -1074,6 +1074,10 @@ var scheduler = window.scheduler = (function() {
 
             var task = scheduler.tasks[0];
 
+            if (!task.active) {
+                return;
+            }
+
             // Only log task when switched from task or priority changed
             if (scheduler.lastTaskRunStat && (scheduler.lastTaskRunStat.id !== task.id || scheduler.lastTaskRunStat.priority !== task.priority)) {
                 window.log('ID:', task.id, 'Priority:', task.priority);
