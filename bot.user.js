@@ -1017,6 +1017,12 @@ var scheduler = window.scheduler = (function() {
             });
         },
 
+        /**
+         * Utility to create a task.
+         *
+         * @param id
+         * @returns {{active: boolean, id: *, description: string, example: string, getPriority: getPriority, execute: execute}}
+         */
         newTask: function(id) {
           return {
               // Only active task will be checked.
@@ -1036,6 +1042,11 @@ var scheduler = window.scheduler = (function() {
           }
         },
 
+        /**
+         * Add task with unique ID to scheduler.
+         *
+         * @param task
+         */
         addTask: function(task) {
             if (scheduler.getTask(task.id) === undefined) {
                 scheduler.tasks.push(task);
@@ -1045,6 +1056,12 @@ var scheduler = window.scheduler = (function() {
             }
         },
 
+        /**
+         * Get the task for give ID.
+         *
+         * @param id
+         * @returns {*}
+         */
         getTask: function(id) {
             var index = scheduler.tasks.findIndex(function (v, i, l) {
                 return v.id === id;
@@ -1054,8 +1071,14 @@ var scheduler = window.scheduler = (function() {
                 return scheduler.tasks[index];
             }
 
+            console.log('Task ' + id + ' not found');
+
         },
 
+        /**
+         * Delete task for given ID.
+         * @param id
+         */
         deleteTask: function(id) {
             var index = scheduler.tasks.findIndex(function (v, i, l) {
                 return v.id === id;
@@ -1482,6 +1505,11 @@ var userInterface = window.userInterface = (function() {
             userInterface.overlays.prefOverlay.innerHTML = oContent.join('<br/>');
         },
 
+        /**
+         * Builds menu for toggling tasks.
+         *
+         * @returns {string}
+         */
         getTaskMenu: function() {
             var ids = userInterface.getOrderedTaskIDs();
             var menu = '';
@@ -1492,6 +1520,11 @@ var userInterface = window.userInterface = (function() {
             return menu;
         },
 
+        /**
+         * Get task IDs (without _default) alphabetically.
+         *
+         * @returns {Array.<*>}
+         */
         getOrderedTaskIDs: function() {
             var ids = [];
             scheduler.tasks.forEach(function(v, i, l) {
@@ -1504,6 +1537,8 @@ var userInterface = window.userInterface = (function() {
 
         /**
          * Get task ID by index on ordered keys.
+         *
+         * This allows for keys 1-9 to toggle task.
          *
          * @param keycode
          * @returns {null|string}
