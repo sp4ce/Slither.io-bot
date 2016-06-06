@@ -899,8 +899,7 @@ var scheduler = window.scheduler = (function() {
                     getPriority: function () {
                         if (bot.checkCollision()) {
                             return 500;
-                        }
-                        else {
+                        } else {
                             return 0;
                         }
                     },
@@ -973,8 +972,7 @@ var scheduler = window.scheduler = (function() {
                     getPriority: function () {
                         if (canvasUtil.getDistance2(window.snake.xx, window.snake.yy, this.point.x, this.point.y) > 1000) {
                             return this.defaultPriority;
-                        }
-                        else {
+                        } else {
                             this.active = false;
                         }
                     },
@@ -1012,7 +1010,7 @@ var scheduler = window.scheduler = (function() {
          *   window.scheduler.listTasks();
          */
         listTasks: function() {
-            scheduler.tasks.forEach(function (v, i, l) {
+            scheduler.tasks.forEach(function (v) {
                 console.log(v.id, 'Active:', v.active, 'Priority:', v.priority, v.description);
             });
         },
@@ -1039,7 +1037,7 @@ var scheduler = window.scheduler = (function() {
               execute: function() {
                   console.log('Task ' + id + ' should have an implementation for "execute"');
               }
-          }
+          };
         },
 
         /**
@@ -1050,8 +1048,7 @@ var scheduler = window.scheduler = (function() {
         addTask: function(task) {
             if (scheduler.getTask(task.id) === undefined) {
                 scheduler.tasks.push(task);
-            }
-            else {
+            } else {
                 console.log('Cannot add task with same ID: ' + task.id);
             }
         },
@@ -1063,7 +1060,7 @@ var scheduler = window.scheduler = (function() {
          * @returns {*}
          */
         getTask: function(id) {
-            var index = scheduler.tasks.findIndex(function (v, i, l) {
+            var index = scheduler.tasks.findIndex(function(v) {
                 return v.id === id;
             });
 
@@ -1080,7 +1077,7 @@ var scheduler = window.scheduler = (function() {
          * @param id
          */
         deleteTask: function(id) {
-            var index = scheduler.tasks.findIndex(function (v, i, l) {
+            var index = scheduler.tasks.findIndex(function(v) {
                 return v.id === id;
             });
 
@@ -1101,7 +1098,7 @@ var scheduler = window.scheduler = (function() {
          * Existing tasks can be adjusted.
          */
         executeTasks: function() {
-            scheduler.tasks.forEach(function(v, i, l){
+            scheduler.tasks.forEach(function (v) {
                 v.priority = v.getPriority();
             });
 
@@ -1114,7 +1111,8 @@ var scheduler = window.scheduler = (function() {
             }
 
             // Only log task when switched from task or priority changed
-            if (scheduler.lastTaskRunStat && (scheduler.lastTaskRunStat.id !== task.id || scheduler.lastTaskRunStat.priority !== task.priority)) {
+            if (scheduler.lastTaskRunStat && (scheduler.lastTaskRunStat.id !== task.id ||
+                scheduler.lastTaskRunStat.priority !== task.priority)) {
                 window.log('ID:', task.id, 'Priority:', task.priority);
             }
 
@@ -1129,7 +1127,7 @@ var scheduler = window.scheduler = (function() {
         sortTasks: function(a, b) {
 
             if (a.active !== b.active) {
-                 return a.active < b.active;
+                return a.active < b.active;
             }
             return a.priority < b.priority;
         }
@@ -1405,7 +1403,9 @@ var userInterface = window.userInterface = (function() {
                 if (e.keyCode === 13) {
                     userInterface.saveNick();
                 }
-                if (48 < e.keyCode && e.keyCode <= 57) {
+
+                // Keys 1 - 9 (non numpad)
+                if ( e.keyCode > 48 && e.keyCode <= 57) {
                     var taskID = userInterface.getTaskIdByKeyBinding(e.keyCode);
                     if (taskID !== undefined) {
                         var task = scheduler.getTask(taskID);
@@ -1515,7 +1515,7 @@ var userInterface = window.userInterface = (function() {
             var menu = '';
             ids.forEach(function(v,i,l){
                 var task = scheduler.getTask(v);
-                menu += '<br/>- ' + (i+1) + ' ' + (task.active ? '*' : ' ') + v;
+                menu += '<br/>- ' + (i + 1) + ' ' + (task.active ? '*' : ' ') + v;
             });
             return menu;
         },
