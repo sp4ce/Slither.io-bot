@@ -896,14 +896,14 @@ var scheduler = window.scheduler = (function() {
                     active: true,
                     description: 'Avoid collision with other (enemy) snakes',
 
-                    getPriority: function () {
+                    getPriority: function() {
                         if (bot.checkCollision()) {
                             return 500;
                         } else {
                             return 0;
                         }
                     },
-                    execute: function () {
+                    execute: function() {
                         // NOP
                         // TODO: checkCollision() needs refactoring; it should return but not set direction
                     }
@@ -913,10 +913,10 @@ var scheduler = window.scheduler = (function() {
                     active: true,
                     description: 'Eat what is detected by CheckForFood',
 
-                    getPriority: function () {
+                    getPriority: function() {
                         return 300;
                     },
-                    execute: function () {
+                    execute: function() {
                         if (bot.currentFood) {
                             window.setAcceleration(bot.foodAccel());
                         }
@@ -935,7 +935,7 @@ var scheduler = window.scheduler = (function() {
                     // to maximum priority
                     triggerPriority: 400,
 
-                    getPriority: function () {
+                    getPriority: function() {
                         var currentPriority = this.priority;
 
                         if (this.priority < this.triggerPriority) {
@@ -945,7 +945,7 @@ var scheduler = window.scheduler = (function() {
                         }
                         return this.startPriority;
                     },
-                    execute: function () {
+                    execute: function() {
                         bot.computeFoodGoal();
                         if (bot.currentFood) {
                             window.setAcceleration(bot.foodAccel());
@@ -970,13 +970,14 @@ var scheduler = window.scheduler = (function() {
                     },
 
                     getPriority: function () {
-                        if (canvasUtil.getDistance2(window.snake.xx, window.snake.yy, this.point.x, this.point.y) > 1000) {
+                        if (canvasUtil.getDistance2(window.snake.xx, window.snake.yy,
+                                this.point.x, this.point.y) > 1000) {
                             return this.defaultPriority;
                         } else {
                             this.active = false;
                         }
                     },
-                    execute: function () {
+                    execute: function() {
                         window.goalCoordinates = this.point;
                         canvasUtil.setMouseCoordinates(canvasUtil.mapToMouse(window.goalCoordinates));
                     }
@@ -986,14 +987,14 @@ var scheduler = window.scheduler = (function() {
                     active: true,
                     description: 'This is the default task which cannot be deactivated.',
 
-                    getPriority: function () {
+                    getPriority: function() {
                         // Always active
                         this.active = true;
 
                         // Lowest priority
                         return 0;
                     },
-                    execute: function () {
+                    execute: function() {
                         window.log(this.id, 'nothing to do');
                     }
                 }
@@ -1099,6 +1100,7 @@ var scheduler = window.scheduler = (function() {
          * Existing tasks can be adjusted.
          */
         executeTasks: function() {
+            // Get new priorities
             scheduler.tasks.forEach(function(v) {
                 v.priority = v.getPriority();
             });
@@ -1124,7 +1126,13 @@ var scheduler = window.scheduler = (function() {
             task.execute();
         },
 
-        // Sort tasks by active
+        /**
+         * Sort tasks by active then priority.
+         *
+         * @param {Task} a Task
+         * @param {Task} b Task
+         * @returns {boolean} a < b
+         */
         sortTasks: function(a, b) {
 
             if (a.active !== b.active) {
@@ -1541,8 +1549,8 @@ var userInterface = window.userInterface = (function() {
          *
          * This allows for keys 1-9 to toggle task.
          *
-         * @param keycode
-         * @returns {null|string}
+         * @param {integer} keycode the key pressed
+         * @returns {null|string} Task ID selected
          */
         getTaskIdByKeyBinding: function(keycode) {
             // http://www.cambiaresearch.com/articles/15/javascript-key-codes
