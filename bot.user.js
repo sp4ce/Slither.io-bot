@@ -1079,7 +1079,13 @@ var scheduler = window.scheduler = (function() {
          * Utility to create a task.
          *
          * @param id
-         * @returns {{active: boolean, id: *, description: string, example: string, getPriority: getPriority, execute: execute}}
+         * @returns {
+         *     active: boolean,
+         *     id: string,
+         *     description: string,
+         *     getPriority: getPriority,
+         *     execute: execute
+         * }
          */
         newTask: function(id) {
           return {
@@ -1089,7 +1095,6 @@ var scheduler = window.scheduler = (function() {
               id: id,
               // used when dumping all tasks
               description: 'Description of ' + id,
-              example: 'Example of ' + id,
               getPriority: function() {
                   console.log('Task ' + id + ' should have an implementation for "getPriority"');
                   return 0;
