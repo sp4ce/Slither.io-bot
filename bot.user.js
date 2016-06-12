@@ -942,8 +942,8 @@ var scheduler = window.scheduler = (function() {
                             opt.foodAccelSize = 60;
                             opt.foodRoundSize = 5;
                         }
-                        if (lengthGroup != this.lastLengthGroup) {
-                            lengthGroup != this.lastLengthGroup;
+                        if (lengthGroup !== this.lastLengthGroup) {
+                            this.lastLengthGroup = lengthGroup;
                             // No need to update UI yet.
                             // userInterface.onPrefChange();
                         }
@@ -992,8 +992,8 @@ var scheduler = window.scheduler = (function() {
                             window.setAcceleration(1);
 
                             bot.currentFood = {
-                                x:prey.xx,
-                                y:prey.yy
+                                x: prey.xx,
+                                y: prey.yy
                             };
 
                             window.goalCoordinates = bot.currentFood;
